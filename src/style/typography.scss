@@ -1,0 +1,18 @@
+@use "colors";
+
+body {
+  color: colors.$primaryText
+}
+
+.h5 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: normal;
+}
+
+.h6 {
+  margin: 0;
+  font-size: 20px;
+  letter-spacing: 0.15px;
+  font-weight: bold;
+}
