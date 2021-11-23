@@ -4,6 +4,10 @@ body {
   color: colors.$primaryText
 }
 
+* {
+  font-family: 'PT Sans', Helvetica, sans;
+}
+
 .h5 {
   margin: 0;
   font-size: 24px;

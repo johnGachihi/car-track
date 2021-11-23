@@ -24,7 +24,7 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-@use "@/style/colors";
+@use '@/style/_colors';
 .app-bar {
   height: 60px;
   box-shadow: 0px 3px 6px -4px #545454;
