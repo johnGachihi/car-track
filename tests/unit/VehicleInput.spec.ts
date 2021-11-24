@@ -17,7 +17,9 @@ it('Calls function provided as onSubmit prop with appropriate arguments', async 
 
   expect(mockSubmitHandler).toBeCalledWith({
     plateNumber: 'kbc123a',
-    latitude: 100.01,
-    longitude: 100.01,
+    startingPoint: {
+      latitude: 100.01,
+      longitude: 100.01,
+    },
   });
 });

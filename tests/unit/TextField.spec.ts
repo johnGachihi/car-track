@@ -9,6 +9,14 @@ it('Shows label', () => {
   expect(wrapper.text()).toContain('A nice label');
 });
 
+it('Shows error', () => {
+  const wrapper = mount(TextField, {
+    props: { error: 'Invalid input' },
+  });
+
+  expect(wrapper.text()).toContain('Invalid input');
+});
+
 it('Sets modelValue prop as the input elements value', () => {
   const wrapper = mount(TextField, {
     props: { modelValue: 'A certain value' },

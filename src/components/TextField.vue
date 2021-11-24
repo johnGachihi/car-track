@@ -1,7 +1,8 @@
 <template>
   <div>
     <label>{{ label }}</label>
-    <input v-model="value" type="text" />
+    <input v-model="value" :type="type" />
+    <small v-if="error" class="error">*{{ error }}</small>
   </div>
 </template>
 
@@ -13,6 +14,12 @@ export default defineComponent({
   props: {
     label: String,
     modelValue: [String, Number],
+    error: String,
+    type: {
+      type: String,
+      validator: (value: string) => ['text', 'number'].includes(value),
+      default: () => 'text',
+    },
   },
   emits: ['update:modelValue'],
 
@@ -42,7 +49,7 @@ label {
 }
 
 input {
-  height: 35px;
+  height: 25px;
   border-radius: 4px;
   border: 1px solid colors.$border;
   padding: 8px 12px;
@@ -57,5 +64,11 @@ input {
   &:focus {
     box-shadow: color.change(colors.$primary, $alpha: 0.25) 0 0 0 0.2rem,
   }
+}
+
+small {
+  color: red;
+  display: block;
+  margin-top: 4px;
 }
 </style>

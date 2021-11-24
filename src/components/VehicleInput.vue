@@ -1,57 +1,76 @@
 <template>
   <div class="card">
     <div class="card-content">
-    <TextField
-      id="plate-number"
-      label="Plate Number"
-      v-model="plateNumber"
-    />
-
-    <div class="coordinates">
       <TextField
-        label="Latitude"
-        v-model="latitude"
+        id="plate-number"
+        label="Plate Number"
+        v-model="plateNumber"
+        :error="plateNumberFieldError"
       />
 
-      <TextField
-        label="Longitude"
-        v-model="longitude"
-      />
-    </div>
-    <button @click="handleSubmit">Submit</button>
+      <div class="coordinates">
+        <TextField label="Latitude" v-model="latitude" type="number" />
+        <TextField label="Longitude" v-model="longitude" type="number" />
+      </div>
+      <button @click="handleSubmit">Submit</button>
     </div>
   </div>
 
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import {
+  defineComponent, PropType, ref, computed, watch,
+} from 'vue';
+import { VehicleSimulation } from '@/views/FleetSimulator.vue';
 import TextField from './TextField.vue';
+import NonUniquePlateNumberError from '@/utils/NonUniquePlateNumberError';
 
 export default defineComponent({
   name: 'VehicleInput',
   props: {
     onSubmit: {
-      type: Function,
+      type: Function as PropType<(v: VehicleSimulation) => void>,
       required: true,
     },
   },
-  components: {
-    TextField,
-  },
+  components: { TextField },
+
   setup(props) {
     const plateNumber = ref('');
+    const plateNumberFieldError = ref('');
     const latitude = ref(0.01);
     const longitude = ref(0.01);
 
-    const handleSubmit = () => props.onSubmit({
-      plateNumber: plateNumber.value,
-      latitude: latitude.value,
-      longitude: longitude.value,
+    const handleSubmit = () => {
+      const vehicle: VehicleSimulation = {
+        plateNumber: plateNumber.value,
+        startingPoint: {
+          latitude: latitude.value,
+          longitude: longitude.value,
+        },
+      };
+
+      try {
+        props.onSubmit(vehicle);
+      } catch (e) {
+        if (e instanceof NonUniquePlateNumberError) {
+          plateNumberFieldError.value = 'Vehicle with plate number already exists!';
+        }
+      }
+    };
+
+    watch(latitude, (newValue) => {
+      // eslint-disable-next-line radix
+      console.log(parseFloat(`${newValue}`));
     });
 
+    /* const longitudeFieldError = computed(() => {
+      if (longitude.value)
+    }) */
+
     return {
-      plateNumber, latitude, longitude, handleSubmit,
+      plateNumber, plateNumberFieldError, latitude, longitude, handleSubmit,
     };
   },
 });
