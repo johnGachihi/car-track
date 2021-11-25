@@ -8,12 +8,12 @@
     <div class="coordinates">
       <div>
         <span class="caption">Latitude:</span>
-        <span class="body1">{{ coordinates.latitude }}</span>
+        <span class="body1">{{ coordinates.latitude.toPrecision(3) }}</span>
       </div>
 
       <div>
         <span class="caption">Longitude:</span>
-        <span class="body1">{{ coordinates.longitude }}</span>
+        <span class="body1">{{ coordinates.longitude.toPrecision(3) }}</span>
       </div>
     </div>
   </div>

@@ -1,4 +1,5 @@
 <template>
+  <app-bar title="Fleet Tracker" />
   <div class="container">
     <fleet id="fleet" :fleet="fleet" />
     <fleet-tracking-map id="map" :fleet="fleet" />
@@ -13,12 +14,13 @@ import Client, { Socket } from 'socket.io-client';
 import Fleet from '@/components/fleet-tracking/Fleet.vue';
 import FleetTrackingMap from '@/components/fleet-tracking/map/FleetTrackingMap.vue';
 import { Vehicle } from '@/components/fleet-tracking/map/use-fleet-map';
+import AppBar from '@/components/AppBar.vue';
 
 const socketIoUrl = process.env.VUE_APP_SOCKET_IO_URL;
 
 export default defineComponent({
   name: 'FleetTracker',
-  components: { Fleet, FleetTrackingMap },
+  components: { Fleet, FleetTrackingMap, AppBar },
   props: {
     socketIoClient: {
       type: Object as PropType<Socket>,
@@ -74,10 +76,15 @@ export default defineComponent({
 #fleet {
   flex-grow: 1;
   flex-basis: 0;
+  padding: {
+    top: 32px;
+    left: 16px;
+    right: 16px;
+  }
 }
 
 #map {
-  flex-grow: 3;
+  flex-grow: 4;
   flex-basis: 0;
 }
 </style>
