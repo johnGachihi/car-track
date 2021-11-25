@@ -12,14 +12,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 import VehicleComponent from '@/components/fleet-tracking/Vehicle.vue';
-
-export type Vehicle = {
-  plateNumber: string,
-  coordinates: {
-    latitude: number
-    longitude: number
-  }
-}
+import { Vehicle } from './map/use-fleet-map';
 
 export default defineComponent({
   name: 'Fleet',
