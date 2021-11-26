@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils';
-import VehicleInput from '@/components/VehicleInput.vue';
+import VehicleInput from '@/components/fleet-simulation/VehicleInput.vue';
 import TextField from '@/components/TextField.vue';
 
 it('Calls function provided as onSubmit prop with appropriate arguments', async () => {

@@ -3,14 +3,15 @@
   <main>
     <div class="content">
       <h6 class="h6">Add vehicle to fleet</h6>
-      <div class="fleet">
-          <VehicleInput :on-submit="addVehicleToFleet" />
+      <VehicleInput id="vehicle-input" :on-submit="addVehicleToFleet" />
 
-          <Vehicle
-            v-for="vehicle in fleet"
-            :vehicle="vehicle"
-            v-bind:key="vehicle.plateNumber"
-          />
+      <h6 class="h6">Fleet</h6>
+      <div class="fleet">
+        <Vehicle
+          v-for="vehicle in fleet"
+          :vehicle="vehicle"
+          v-bind:key="vehicle.plateNumber"
+        />
       </div>
     </div>
   </main>
@@ -19,8 +20,8 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import AppBar from '@/components/AppBar.vue';
-import VehicleInput from '@/components/VehicleInput.vue';
-import Vehicle from '@/components/Vehicle.vue';
+import VehicleInput from '@/components/fleet-simulation/VehicleInput.vue';
+import Vehicle from '@/components/fleet-simulation/Vehicle.vue';
 import NonUniquePlateNumberError from '@/utils/NonUniquePlateNumberError';
 
 export type VehicleSimulation = {
@@ -62,7 +63,11 @@ main {
   width: 60%;
 }
 
-.fleet {
-  margin-top: 16px;
+.h6 {
+  margin-bottom: 16px;
+}
+
+#vehicle-input {
+  margin-bottom: 40px;
 }
 </style>

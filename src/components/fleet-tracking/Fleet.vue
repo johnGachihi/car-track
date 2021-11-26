@@ -6,7 +6,7 @@
       :key="vehicle.plateNumber"
       v-bind="vehicle"
       @click="handleVehicleClick"
-      :selected="vehicle.plateNumber === selectedVehicle?.plateNumber"
+      :selected="isVehicleSelected(vehicle)"
     />
   </div>
 </template>
@@ -44,7 +44,12 @@ export default defineComponent({
       emit('selection', vehicle);
     };
 
-    return { handleVehicleClick, selectedVehicle };
+    const isVehicleSelected = (vehicle: Vehicle) => {
+      const isSelected = vehicle.plateNumber === selectedVehicle.value?.plateNumber;
+      return isSelected;
+    };
+
+    return { handleVehicleClick, isVehicleSelected };
   },
 });
 </script>

@@ -1,7 +1,7 @@
 import Vehicle from './VehicleInput.vue';
 
 export default {
-  title: 'Components/Vehicle',
+  title: 'Components/Fleet-Simulation/VehicleInput',
   component: Vehicle,
 };
 

@@ -33,7 +33,7 @@
     "src/**/*.vue",
     "tests/**/*.ts",
     "tests/**/*.tsx"
-  ],
+, "src/components/fleet-simulation/Vehicle.stories.js"  ],
   "exclude": [
     "node_modules"
   ]

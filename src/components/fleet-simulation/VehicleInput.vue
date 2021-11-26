@@ -20,11 +20,11 @@
 
 <script lang="ts">
 import {
-  defineComponent, PropType, ref, computed, watch,
+  defineComponent, PropType, ref, watch,
 } from 'vue';
-import { VehicleSimulation } from '@/views/FleetSimulator.vue';
-import TextField from './TextField.vue';
+import TextField from '../TextField.vue';
 import NonUniquePlateNumberError from '@/utils/NonUniquePlateNumberError';
+import { VehicleSimulation } from './VehicleSimulation';
 
 export default defineComponent({
   name: 'VehicleInput',
