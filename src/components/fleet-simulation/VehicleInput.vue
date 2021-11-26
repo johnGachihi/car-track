@@ -39,10 +39,15 @@ export default defineComponent({
   setup(props) {
     const plateNumber = ref('');
     const plateNumberFieldError = ref('');
-    const latitude = ref(0.01);
-    const longitude = ref(0.01);
+    const latitude = ref(-1);
+    const longitude = ref(36);
 
     const handleSubmit = () => {
+      if (plateNumber.value === '') {
+        plateNumberFieldError.value = 'Plate number required';
+        return;
+      }
+
       const vehicle: VehicleSimulation = {
         plateNumber: plateNumber.value,
         startingPoint: {

@@ -23,3 +23,16 @@ it('Calls function provided as onSubmit prop with appropriate arguments', async 
     },
   });
 });
+
+it('Shows error message when submit clicked and plate-number field has no value', async (done) => {
+  const wrapper = mount(VehicleInput, {
+    props: { onSubmit: jest.fn() },
+  });
+
+  await wrapper.find('button').trigger('click');
+
+  setTimeout(() => {
+    expect(wrapper.text()).toContain('Plate number required');
+    done();
+  }, 1000);
+});
