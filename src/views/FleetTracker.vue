@@ -7,14 +7,13 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent, PropType, onMounted, ref, onUnmounted,
-} from 'vue';
+import { defineComponent, PropType, ref } from 'vue';
 import Client, { Socket } from 'socket.io-client';
 import Fleet from '@/components/fleet-tracking/Fleet.vue';
 import FleetTrackingMap from '@/components/fleet-tracking/map/FleetTrackingMap.vue';
 import { Vehicle } from '@/components/fleet-tracking/map/use-fleet-map';
 import AppBar from '@/components/AppBar.vue';
+import useFleetTracking from '@/utils/use-fleet-tracking';
 
 const socketIoUrl = process.env.VUE_APP_SOCKET_IO_URL;
 
@@ -22,6 +21,7 @@ export default defineComponent({
   name: 'FleetTracker',
   components: { Fleet, FleetTrackingMap, AppBar },
   props: {
+    // Very bad manners
     socketIoClient: {
       type: Object as PropType<Socket>,
       default: () => {
@@ -35,37 +35,12 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const fleet = ref<Vehicle[]>([]);
-    const trackedVehicle = ref<Vehicle | undefined>();
+    const { fleet } = useFleetTracking(props.socketIoClient);
 
+    const trackedVehicle = ref<Vehicle | undefined>();
     const handleVehicleSelection = (vehicle: Vehicle) => {
       trackedVehicle.value = vehicle;
     };
-
-    onMounted(() => {
-      if (!props.socketIoClient.connected) {
-        props.socketIoClient.connect();
-      }
-
-      props.socketIoClient.on('vehicles', (_vehicles: Vehicle[]) => {
-        fleet.value = _vehicles;
-
-        setTimeout(() => props.socketIoClient.emit('received'), 600);
-      });
-
-      props.socketIoClient.on('vehicle-movement', (movedVehicle) => {
-        fleet.value = fleet.value.map((vehicle) => {
-          if (vehicle.plateNumber === movedVehicle.plateNumber) {
-            return movedVehicle;
-          }
-          return vehicle;
-        });
-      });
-    });
-
-    onUnmounted(() => {
-      props.socketIoClient.close();
-    });
 
     return { fleet, handleVehicleSelection, trackedVehicle };
   },

@@ -83,7 +83,7 @@ function useFleetMap(
             trackedVehicleCoordinates.longitude,
             trackedVehicleCoordinates.latitude,
           ],
-          zoom: 13,
+          zoom: 10,
           speed: 1,
         });
       }
