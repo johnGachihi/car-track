@@ -27,3 +27,35 @@ it('Displays vehicles provided in fleet prop', () => {
   expect(renderedText).toContain('333');
   expect(renderedText).toContain('444');
 });
+
+it('Emits selection event with appropriate data when child Vehicle component is clicked', async () => {
+  const vehicle = {
+    plateNumber: 'kba123a',
+    coordinates: { latitude: 111, longitude: 222 },
+  };
+
+  const wrapper = mount(Fleet, {
+    props: { fleet: [vehicle] },
+  });
+
+  const vehicleComponent = wrapper.findComponent(Vehicle);
+  await vehicleComponent.trigger('click');
+
+  expect(wrapper.emitted('selection')?.[0]).toStrictEqual([vehicle]);
+});
+
+it('Shows that a vehicle is selected when it is clicked', async () => {
+  const wrapper = mount(Fleet, {
+    props: {
+      fleet: [{
+        plateNumber: 'kba123a',
+        coordinates: { latitude: 111, longitude: 222 },
+      }],
+    },
+  });
+
+  const vehicleComponent = wrapper.findComponent(Vehicle);
+  await vehicleComponent.trigger('click');
+
+  expect(vehicleComponent.classes()).toContain('selected');
+});

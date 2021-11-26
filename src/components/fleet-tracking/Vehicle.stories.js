@@ -13,11 +13,21 @@ const Template = (args) => ({
   template: '<vehicle v-bind="args" />',
 });
 
-export const Primary = Template.bind({ });
-Primary.args = {
+export const Default = Template.bind({ });
+Default.args = {
   plateNumber: 'kba123a',
   coordinates: {
     latitude: 123,
     longitude: 456,
   },
+};
+
+export const Selected = Template.bind({ });
+Selected.args = {
+  plateNumber: 'kba123a',
+  coordinates: {
+    latitude: 123,
+    longitude: 456,
+  },
+  selected: true,
 };

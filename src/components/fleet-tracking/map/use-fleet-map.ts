@@ -30,12 +30,15 @@ function getFleetGeoJson(fleet: Vehicle[]): FleetGeoJson {
 }
 
 type UseFleetMapReturn = {
-  setFleetTrackingMap: (map: Map) => void
+  handleMapCreated: (map: Map) => void
 }
 
-function useFleetMap(fleet: Ref<Vehicle[]>): UseFleetMapReturn {
+function useFleetMap(
+  fleet: Ref<Vehicle[]>,
+  trackedVehicle: Ref<Vehicle | undefined>,
+): UseFleetMapReturn {
   const fleetMap = ref<Map | null>(null);
-  const setFleetTrackingMap = (map: Map) => {
+  const handleMapCreated = (map: Map) => {
     fleetMap.value = map;
   };
 
@@ -68,7 +71,26 @@ function useFleetMap(fleet: Ref<Vehicle[]>): UseFleetMapReturn {
     }
   });
 
-  return { setFleetTrackingMap };
+  watch(fleet, (_fleet) => {
+    if (trackedVehicle.value && fleetMap.value) {
+      const trackedVehicleCoordinates = _fleet.find(
+        (vehicle) => vehicle.plateNumber === trackedVehicle.value?.plateNumber,
+      )?.coordinates;
+
+      if (trackedVehicleCoordinates) {
+        fleetMap.value.flyTo({
+          center: [
+            trackedVehicleCoordinates.longitude,
+            trackedVehicleCoordinates.latitude,
+          ],
+          zoom: 13,
+          speed: 1,
+        });
+      }
+    }
+  });
+
+  return { handleMapCreated };
 }
 
 export default useFleetMap;

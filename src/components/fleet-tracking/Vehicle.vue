@@ -1,5 +1,9 @@
 <template>
-  <div class="container">
+  <div
+    class="container"
+    :class="{ 'selected': selected }"
+    @click="handleClick"
+  >
     <div>
       <span class="caption">Plate Number:</span>
       <span class="plate-number h6">{{ plateNumber }}</span>
@@ -20,10 +24,19 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
+import { defineComponent, PropType, toRefs } from 'vue';
+import { Vehicle } from './map/use-fleet-map';
 
 export default defineComponent({
   name: 'Vehicle',
+  emits: {
+    click: (vehicle: Vehicle) => {
+      if (vehicle) {
+        return true;
+      }
+      return false;
+    },
+  },
   props: {
     plateNumber: {
       type: String,
@@ -36,20 +49,43 @@ export default defineComponent({
       }>,
       required: true,
     },
+    selected: {
+      type: Boolean,
+      default: false,
+    },
+  },
+
+  setup(props, { emit }) {
+    const { plateNumber, coordinates } = toRefs(props);
+
+    const handleClick = () => {
+      emit('click', {
+        plateNumber: plateNumber.value,
+        coordinates: coordinates.value,
+      });
+    };
+
+    return { handleClick };
   },
 });
 </script>
 
 <style lang="scss" scoped>
 @use "@/style/_colors";
-.caption {
-  display: block;
-}
+@use "sass:color";
 .container {
   border: 1px solid colors.$border;
   border-radius: 4px;
   max-width: 400px;
   padding: 16px 16px;
+  cursor: pointer;
+
+  &.selected {
+    background-color: color.change(colors.$secondary, $alpha: 0.5);
+  }
+}
+.caption {
+  display: block;
 }
 .plate-number {
   display: block;

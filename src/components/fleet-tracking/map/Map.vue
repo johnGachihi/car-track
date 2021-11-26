@@ -4,18 +4,20 @@
 
 <script lang="ts">
 import {
-  defineComponent, ref, onMounted, PropType,
+  defineComponent, ref, onMounted,
 } from 'vue';
 import mapboxGl, { Map as MapboxGlMap } from 'mapbox-gl';
 
 export default defineComponent({
   name: 'Map',
-  props: {
-    // Allows this component to lift Mapbox Map to parent component
-    mapSetter: Function as PropType<(map: MapboxGlMap) => void>,
+  emits: {
+    mapCreated: (map: MapboxGlMap) => {
+      if (map) return true;
+      return false;
+    },
   },
 
-  setup(props) {
+  setup(props, { emit }) {
     const mapEl = ref<HTMLDivElement | null>(null);
 
     onMounted(() => {
@@ -33,7 +35,7 @@ export default defineComponent({
           zoom: 5,
         });
 
-        if (props.mapSetter) props.mapSetter(map);
+        emit('mapCreated', map);
       }
     });
 

@@ -1,8 +1,8 @@
 <template>
   <app-bar title="Fleet Tracker" />
   <div class="container">
-    <fleet id="fleet" :fleet="fleet" />
-    <fleet-tracking-map id="map" :fleet="fleet" />
+    <fleet id="fleet" :fleet="fleet" @selection="handleVehicleSelection" />
+    <fleet-tracking-map id="map" :fleet="fleet" :tracked-vehicle="trackedVehicle" />
   </div>
 </template>
 
@@ -36,6 +36,11 @@ export default defineComponent({
   },
   setup(props) {
     const fleet = ref<Vehicle[]>([]);
+    const trackedVehicle = ref<Vehicle | undefined>();
+
+    const handleVehicleSelection = (vehicle: Vehicle) => {
+      trackedVehicle.value = vehicle;
+    };
 
     onMounted(() => {
       if (!props.socketIoClient.connected) {
@@ -62,7 +67,7 @@ export default defineComponent({
       props.socketIoClient.close();
     });
 
-    return { fleet };
+    return { fleet, handleVehicleSelection, trackedVehicle };
   },
 });
 </script>
