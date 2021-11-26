@@ -13,7 +13,7 @@ function useMovementSimulation(startingPoint: Coordinate): Coordinate {
 
   const intervalId = setInterval(() => {
     const latOrLongOrBoth = Math.floor(Math.random() * 3);
-    const delta = Math.floor(Math.random() * 10) * 0.01;
+    const delta = Math.floor(Math.random() * 10) * 0.001;
 
     if (latOrLongOrBoth === 0) {
       coordinates.latitude += delta;

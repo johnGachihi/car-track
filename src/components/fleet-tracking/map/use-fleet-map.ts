@@ -55,7 +55,7 @@ function useFleetMap(
           type: 'symbol',
           source: 'source',
           layout: {
-            'icon-image': 'rocket-15',
+            'icon-image': 'car-15',
           },
         });
       });

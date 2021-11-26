@@ -1,5 +1,7 @@
 import Client, { Socket } from 'socket.io-client';
-import { onUnmounted, ref, Ref } from 'vue';
+import {
+  onMounted, onUnmounted, ref, Ref,
+} from 'vue';
 import { Vehicle } from '@/components/fleet-tracking/map/use-fleet-map';
 
 const socketIoUrl = process.env.VUE_APP_SOCKET_IO_URL;
@@ -8,7 +10,10 @@ function createClientSocket(autoConnect = false): Socket {
   if (!socketIoUrl) {
     throw Error('VUE_APP_SOCKET_IO_URL env config not set');
   }
-  return Client(socketIoUrl, { autoConnect });
+  return Client(socketIoUrl, {
+    autoConnect,
+    auth: { type: 'admin' },
+  });
 }
 
 type UseFleetTrackingReturn = {
@@ -39,9 +44,15 @@ function useFleetTracking(_clientSocket: Socket): UseFleetTrackingReturn {
     });
   });
 
-  if (!clientSocket.connected) {
-    clientSocket.connect();
-  }
+  onMounted(() => {
+    if (!clientSocket.connected) {
+      clientSocket.connect();
+    }
+  });
+
+  clientSocket.on('connect', () => {
+    clientSocket.emit('a');
+  });
 
   onUnmounted(() => clientSocket.close());
 

@@ -3,8 +3,8 @@
     <h5 class="title h5">{{ title }}</h5>
 
     <div class="links">
-      <router-link to="/">Fleet Tracker</router-link>
-      <router-link to="/fleet-simulator">Simulator</router-link>
+      <router-link to="/" target="_blank">Fleet Tracker</router-link>
+      <router-link to="/fleet-simulator" target="_blank">Simulator</router-link>
     </div>
   </nav>
 </template>

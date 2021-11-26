@@ -46,7 +46,12 @@ export default defineComponent({
       throw new Error('VUE_APP_SOCKET_IO_URL env config not set');
     }
 
-    const clientSocket: Socket = Client(socketIoUrl);
+    const clientSocket: Socket = Client(socketIoUrl, {
+      auth: {
+        type: 'vehicle',
+        plateNumber: props.vehicle.plateNumber,
+      },
+    });
     clientSocket.on('connect', () => {
       console.log('connected');
     });
@@ -54,7 +59,6 @@ export default defineComponent({
     onUnmounted(() => clientSocket.close());
 
     watch(coordinates, (value) => {
-      console.log('emitting coordinates');
       clientSocket.emit('vehicle-movement', {
         plateNumber: props.vehicle.plateNumber,
         coordinates: value,
